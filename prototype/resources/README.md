@@ -90,3 +90,7 @@
 ### 绘制式 UI 素材
 
 `ui-skins.css` 加载 assets/ui-hud-panel-v1.png、ui-controls-v1.png 及 ui-build-menu-2/3/4-v1.png。菜单由 allowedBuildings 数量选用对应独立 PNG，第一关两项使用二选项模板。按钮图集由左到右为暂停、继续、重新开始，通过 aria-pressed 切换暂停/继续帧。文字与交互区域叠在图像上，数值仍实时更新。当前支持 2—4 项固定模板；更多选项暂沿用四项底板并滚动，后续可继续增加对应素材。
+
+## 关卡注册、奖励与地图规范
+
+`map-level-1.js` 定义 MAP_LEVEL_1，`map-level-2.js` 定义 MAP_LEVEL_2；`campaign.js` 注册为 CAMPAIGN_LEVELS 并选择 MAP_CONFIG。地图可用 rules 覆盖全局关卡节奏，id/label 指定编号和名称，reward 指定通关建筑奖励介绍，initialCamera.focus 指定开局观察中心，edgePadding 标记端点至少 4 格留白。完整规范与当前两关数据见 `MAP-DESIGN.md`。第一关胜利后解锁减速塔并提供下一关入口，第二关地图允许该建筑；其他未开放建筑仍不能建造。

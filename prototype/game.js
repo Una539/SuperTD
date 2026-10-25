@@ -2,7 +2,7 @@
 const canvas = document.querySelector('#game'), ctx = canvas.getContext('2d');
 const $ = s => document.querySelector(s);
 const {cellSize:CELL,width:W,height:H} = MAP_CONFIG;
-const WAVE_SETTINGS = GAME_CONFIG.rules;
+const WAVE_SETTINGS = {...GAME_CONFIG.rules,...MAP_CONFIG.rules};
 const BATCHES=WAVE_SETTINGS.batches;
 const MAX_WAVES=BATCHES.filter(b=>b.assault).length;
 const LEVEL_TOTAL=BATCHES.reduce((n,b)=>n+Object.values(b.enemies).reduce((a,c)=>a+c,0),0);
@@ -21,7 +21,7 @@ const oreClusters = MAP_CONFIG.oreClusters;
 const ores = oreClusters.flat().map(([x,y])=>({x,y}));
 let buildings,enemies,shots,impacts,wave,health,queue,spawnClock,active,paused,ended,tool,selected,hover;
 let cam={x:0,y:0},zoom=1,viewW=1,viewH=1,pointer=null,last=0,messageTimer;
-function reset(){batchIndex=-1;batchStates=[];buildCooldowns=Object.fromEntries(Object.keys(types).map(id=>[id,0]));outcome=null;$('#overlay').className='';$('#overlay').innerHTML='';buildings=[];enemies=[];shots=[];impacts=[];wave=0;health=WAVE_SETTINGS.baseHealth;preparationLeft=WAVE_SETTINGS.initialDelay;waveTotal=0;queue=[];spawnClock=0;active=false;paused=false;ended=false;tool=null;selected=null;hover=null;zoom=1;cam={x:0,y:2*CELL};closeMenu();$('#overlay').hidden=true;$('#pause').textContent='暂停';clampCam();ui();}
+function reset(){batchIndex=-1;batchStates=[];buildCooldowns=Object.fromEntries(Object.keys(types).map(id=>[id,0]));outcome=null;$('#overlay').className='';$('#overlay').innerHTML='';buildings=[];enemies=[];shots=[];impacts=[];wave=0;health=WAVE_SETTINGS.baseHealth;preparationLeft=WAVE_SETTINGS.initialDelay;waveTotal=0;queue=[];spawnClock=0;active=false;paused=false;ended=false;tool=null;selected=null;hover=null;zoom=1;cam={x:(MAP_CONFIG.initialCamera.focus[0]+.5)*CELL-canvas.getBoundingClientRect().width/2,y:(MAP_CONFIG.initialCamera.focus[1]+.5)*CELL-canvas.getBoundingClientRect().height/2};closeMenu();$('#overlay').hidden=true;$('#pause').textContent='暂停';clampCam();ui();}
 function cost(b){return stats(b).cost;}
 function claimed(b,o){return Math.max(Math.abs(b.x-o.x),Math.abs(b.y-o.y))<=types[b.type].coverage;}
 function miningCount(o,list=buildings){return list.filter(b=>kind(b)==='miner'&&claimed(b,o)).length;}
@@ -73,8 +73,8 @@ function updateHud(){
   $('#wave-fill').style.width=progress+'%';
   $('#wave-meter').setAttribute('aria-valuenow',String(Math.round(progress)));
   $('#wave-meter').setAttribute('aria-valuetext',`关卡进度 ${Math.round(progress)}%，总攻 ${wave}/${MAX_WAVES}`);
-  $('#wave-label').textContent=`第一关 · ${MAX_WAVES} 次总攻`;
-  $('#wave-state').textContent=ended?(outcome==='victory'?'防守成功':'基地失守'):paused?'已暂停':!active?'准备中':BATCHES[batchIndex]?.assault?'最终总攻':`第 ${batchIndex+1} 批来袭`;
+  $('#wave-label').textContent=`${MAP_CONFIG.label} · ${MAX_WAVES} 次总攻`;
+  $('#wave-state').textContent=ended?(outcome==='victory'?'防守成功':'基地失守'):paused?'已暂停':!active?'准备中':BATCHES[batchIndex]?.assault?(batchIndex===BATCHES.length-1?'最终总攻':`第 ${wave} 次总攻`):`第 ${batchIndex+1} 批来袭`;
   let scheduled=0;
   const flags=BATCHES.map((b,i)=>{
     const before=scheduled;scheduled+=Object.values(b.enemies).reduce((a,c)=>a+c,0);
@@ -100,11 +100,16 @@ function finishGame(result){
   ended=true;active=false;paused=false;outcome=result;preparationLeft=0;
   closeMenu();clearTimeout(messageTimer);$('#message').style.opacity=0;
   const won=result==='victory',overlay=$('#overlay');
-  overlay.className='result '+result;
-  overlay.innerHTML=`<div class="result-backdrop"></div><div class="result-particles" aria-hidden="true">${Array.from({length:28},(_,i)=>`<i style="--n:${i};--x:${(i*37)%100}%;--drift:${(i%2?1:-1)*(20+i*3)}px;--delay:${(i%7)*.08}s"></i>`).join('')}</div><section class="result-card" role="dialog" aria-modal="true" aria-labelledby="result-title"><img class="result-art" src="assets/ui-result-${won?'victory':'defeat'}-v1.png" alt="" aria-hidden="true" draggable="false"><h2 id="result-title">${won?'防守成功':'基地失守'}</h2><p>${won?`最终总攻已击退`:`防线止步于第 ${batchIndex+1} 批`}</p><div class="result-summary">${won?`基地生命 <b>${health} / ${WAVE_SETTINGS.baseHealth}</b>`:`基地生命 <b>0 / ${WAVE_SETTINGS.baseHealth}</b>`}</div><button id="result-restart" aria-label="重新开始"><span class="result-restart-label">重新开始</span></button></section>`;
+  if(won)recordLevelVictory();
+  const reward=won?MAP_CONFIG.reward:null;
+  const hasNext=won&&NEXT_LEVEL;
+  const canContinue=hasNext&&NEXT_LEVEL.enabled!==false;
+  overlay.className='result '+result+(reward?' has-reward':'')+(hasNext?' has-next':'');
+  overlay.innerHTML=`<div class="result-backdrop"></div><div class="result-particles" aria-hidden="true">${Array.from({length:28},(_,i)=>`<i style="--n:${i};--x:${(i*37)%100}%;--drift:${(i%2?1:-1)*(20+i*3)}px;--delay:${(i%7)*.08}s"></i>`).join('')}</div><section class="result-card" role="dialog" aria-modal="true" aria-labelledby="result-title"><img class="result-art" src="assets/ui-result-${won?'victory':'defeat'}-v1.png" alt="" aria-hidden="true" draggable="false"><h2 id="result-title">${won?'防守成功':'基地失守'}</h2><p>${won?`${MAP_CONFIG.label}全部攻势已击退`:`防线止步于第 ${batchIndex+1} 批`}</p><div class="result-summary">${won?`基地生命 <b>${health} / ${WAVE_SETTINGS.baseHealth}</b>`:`基地生命 <b>0 / ${WAVE_SETTINGS.baseHealth}</b>`}</div>${reward?`<div class="result-reward"><span class="reward-art" aria-hidden="true"></span><div><b>${reward.title}</b><small>${reward.description}</small></div></div>`:''}${hasNext?`<button id="result-next" class="result-next" ${canContinue?'':'disabled aria-disabled="true" title="第二关暂未开放"'}>进入${NEXT_LEVEL.label}</button>`:''}<button id="result-restart" aria-label="重新开始"><span class="result-restart-label">重新开始</span></button></section>`;
   overlay.hidden=false;
   $('#result-restart').onclick=reset;
-  $('#result-restart').focus();
+  if(canContinue){$('#result-next').onclick=enterNextLevel;$('#result-next').focus();}
+  else $('#result-restart').focus();
 }
 function startBatch(){
   if(ended||batchIndex+1>=BATCHES.length)return;
@@ -232,4 +237,4 @@ for(const s of impacts){
 ctx.globalAlpha=1;
 if(menuTile&&!$('#context-menu').hidden){ctx.strokeStyle='#f4e4a9';ctx.lineWidth=2;ctx.strokeRect(menuTile.x*CELL+2,menuTile.y*CELL+2,CELL-4,CELL-4);}ctx.lineWidth=1;}
 function frame(time){const dt=Math.min((time-last)/1000,.05);last=time;update(dt);draw();requestAnimationFrame(frame);}
-reset();resize();requestAnimationFrame(frame);
+initLevelList();reset();resize();requestAnimationFrame(frame);
