@@ -8,6 +8,8 @@
 
 ## GitHub Pages 部署
 
+线上 Demo：https://supertd.unoflow.org/ 。域名由 Cloudflare 管理，`supertd` 的 DNS-only CNAME 指向 `una539.github.io`；GitHub Pages 的 Custom domain 设置为 `supertd.unoflow.org`。
+
 在仓库 **Settings → Pages → Build and deployment → Source** 中选择 **GitHub Actions**。
 
 推送到 `main` 且修改了 `prototype/` 或 `.github/workflows/deploy-demo.yml` 时，自动部署原型；也可以在 Actions 中手动运行 **Deploy prototype demo**。
