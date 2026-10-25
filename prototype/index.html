@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>塔防原型</title><link rel="stylesheet" href="style.css?v=result-art-5"><link rel="stylesheet" href="cartoon-ui.css?v=result-art-5"><link rel="stylesheet" href="ui-skins.css?v=result-art-5"></head>
+<body>
+<header><div id="stats">
+<section class="resource mana"><span class="resource-icon">◈</span><div class="resource-content"><div class="meter-label"><b>魔力枢纽</b><span id="mana-value"></span></div><div id="mana-meter" class="meter" role="progressbar" aria-label="魔力占用"><i id="mana-fill"></i></div></div></section>
+<section class="resource vitality"><span class="resource-icon">♥</span><div class="resource-content"><div class="meter-label"><b>基地生命</b><span id="health-value"></span></div><div id="health-meter" class="meter" role="progressbar" aria-label="基地生命" aria-valuemin="0" aria-valuemax="20"><i id="health-fill"></i></div></div></section>
+</div><section id="wave-panel"><div class="meter-label"><b id="wave-label">防线</b><span id="wave-state"></span></div><div id="wave-meter" class="wave-track" role="progressbar" aria-label="关卡进度" aria-valuemin="0" aria-valuemax="100"><i id="wave-fill"></i><div id="wave-flags"></div></div><div id="wave-countdown"></div></section><div class="header-actions"><button id="pause" aria-label="暂停" aria-pressed="false" title="暂停 / 继续">暂停</button><button id="restart" aria-label="重新开始" title="重新开始">重新开始</button></div></header>
+<main><div id="viewport"><canvas id="game"></canvas>
+<div id="context-menu" data-mode="build" data-options="2" hidden><img id="menu-background" src="assets/ui-build-menu-2-v1.png" alt="" aria-hidden="true" draggable="false"><div class="section-heading"><h3 id="context-title">建造</h3><button id="close-menu" aria-label="关闭">×</button></div><div id="buildings"></div><section id="selection"></section></div>
+<div id="message" role="status"></div><div id="overlay" hidden></div>
+</div></main>
+<script src="resources/game-config.js?v=result-art-5"></script><script src="resources/map-level-1.js?v=result-art-5"></script><script src="visuals.js?v=result-art-5"></script><script src="game.js?v=result-art-5"></script>
+</body></html>

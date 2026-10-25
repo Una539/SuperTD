@@ -1,0 +1,177 @@
+/* Painted PNG skins supply the actual panel silhouettes and button artwork.
+   DOM elements only position live text, meter fills and accessible hit targets. */
+#stats,#wave-panel{background:transparent url('assets/ui-hud-panel-v1.png') center/100% 100% no-repeat;border:0;border-radius:0;box-shadow:none;backdrop-filter:none;transform:none}
+#stats:before,#wave-panel:before{display:none}
+#stats{padding:20px 28px 22px;min-height:96px;gap:22px;flex-basis:450px}
+.resource,.resource+.resource{background:none;border:0;border-radius:0;box-shadow:none;padding:0;gap:9px}
+#stats .resource+.resource{border-left:0;padding-left:0}
+#wave-panel{padding:22px 32px 28px;min-height:100px;max-width:450px}
+.header-actions,.header-actions button{border:0;box-shadow:none;border-radius:0;backdrop-filter:none}
+.header-actions{background:none;padding:6px 0;gap:7px}
+.header-actions button{background-color:transparent;background-image:url('assets/ui-controls-v1.png');background-size:300% 100%;background-repeat:no-repeat;width:66px;height:66px;padding:0;transition:transform .12s,filter .12s}
+.header-actions button:before,.header-actions button:after{display:none}
+#pause{background-position:0 0}#pause[aria-pressed="true"]{background-position:50% 0}#restart{background-position:100% 0}
+.header-actions button:hover:not(:disabled){background-color:transparent;background-image:url('assets/ui-controls-v1.png');transform:translateY(-2px);filter:brightness(1.1)}
+.header-actions button:active:not(:disabled){transform:translateY(2px) scale(.96);box-shadow:none}
+#context-menu{--menu-width:320px;--menu-height:310px;width:var(--menu-width);height:var(--menu-height);max-height:calc(100% - 16px);padding:0;border:0;border-radius:0;box-shadow:none;backdrop-filter:none;background-color:transparent;background-repeat:no-repeat;background-size:100% 100%;overflow:hidden}
+#context-menu[data-mode="build"][data-options="2"]{--menu-height:310px;background-image:url('assets/ui-build-menu-2-v1.png')}
+#context-menu[data-mode="build"][data-options="3"]{--menu-height:410px;background-image:url('assets/ui-build-menu-3-v1.png')}
+#context-menu[data-mode="build"][data-options="4"]{--menu-height:510px;background-image:url('assets/ui-build-menu-4-v1.png')}
+#context-menu .section-heading{position:absolute;left:12%;right:11%;top:8%;height:9%;padding:0;margin:0;align-items:center}
+#context-title{color:#553822;text-shadow:none;font-size:13px;font-weight:800;letter-spacing:0}
+#close-menu{background:none;border:0;border-radius:0;box-shadow:none;color:#6a4028;font-size:25px;width:27px;height:27px}
+#buildings{position:absolute;left:12%;right:12%;top:25%;bottom:12%;display:grid;grid-template-rows:repeat(var(--option-count),minmax(0,1fr));gap:7%;overflow-y:auto}
+#buildings button{position:relative;width:100%;height:100%;padding:6px 5px;background:transparent;border:0;border-radius:0;box-shadow:none;gap:7px;transform:none;min-height:0}
+#buildings button:hover:not(:disabled){background:#ffeab331;border:0;transform:none;box-shadow:none;filter:brightness(1.08)}
+#buildings button:disabled{opacity:.46}
+#buildings .build-icon{flex:none;width:44px;height:44px;background-color:transparent;border:0;box-shadow:none}
+#buildings .build-copy{min-width:0}#buildings .build-copy b{font-size:13px}#buildings .build-copy small{font-size:9px;margin-top:3px;line-height:1.3}#buildings .build-cost{font-size:13px;flex:none}
+#context-menu[data-options="3"] .section-heading{top:6%;height:7%}#context-menu[data-options="3"] #buildings{top:19%;bottom:10%;gap:5%}
+#context-menu[data-options="4"] .section-heading{top:5%;height:6%}#context-menu[data-options="4"] #buildings{top:16%;bottom:9%;gap:4%}
+#context-menu[data-mode="selection"]{--menu-height:350px;background-image:url('assets/ui-hud-panel-v1.png');overflow-y:auto}
+#context-menu[data-mode="selection"] .section-heading{top:10%;height:9%}
+#selection{position:absolute;top:23%;left:13%;right:13%;bottom:14%;padding:0;background:transparent;border:0;border-radius:0;box-shadow:none;color:#65482e;overflow-y:auto;font-size:12px;line-height:1.9}
+#selection button{background:transparent url('assets/ui-hud-panel-v1.png') center/100% 100% no-repeat;border:0;border-radius:0;box-shadow:none;padding:11px 16px;font-weight:800;color:#654024}
+#wave-countdown{background:transparent url('assets/ui-hud-panel-v1.png') center/100% 100% no-repeat;border:0;border-radius:0;box-shadow:none;padding:11px 19px;top:calc(100% - 4px)}
+@media(max-width:1050px){#stats{min-width:280px;padding:19px 22px 22px;gap:12px;flex-basis:390px}#wave-panel{min-width:170px;padding:23px 26px 26px}.header-actions button{width:57px;height:57px}.header-actions{gap:3px}#stats .resource-icon{width:28px}}
+@media(max-width:760px){#stats{min-width:0;padding:17px 19px;min-height:82px;gap:10px}#stats .resource-icon{width:22px}.resource,.resource+.resource{gap:3px}.header-actions{gap:1px;padding:0}.header-actions button{width:43px;height:48px}#wave-panel{padding:18px 26px 26px;min-height:92px;max-width:none}#context-menu{--menu-width:300px}.meter-label b,.meter-label span{font-size:9px}#message{top:210px}}
+/* Align live content to the painted inset bounds of each exported template. */
+#context-menu[data-mode="build"] #context-title,#context-menu[data-mode="build"] #close-menu{color:#fff0c6;text-shadow:0 1px #684227}
+#context-menu[data-options="2"] #buildings{top:21%;bottom:13%;gap:8%}
+#context-menu[data-options="3"] #buildings{top:16%;bottom:10%;gap:6%}
+#context-menu[data-options="4"] #buildings{top:15.7%;bottom:7.7%;gap:5%}
+#context-menu[data-mode="selection"] #selection{top:28%;bottom:24%}
+/* Keep sprite sizing explicit in every state: old hover background shorthands
+   otherwise reset the atlas to its natural size and hide the button artwork. */
+.header-actions button,
+.header-actions button:hover:not(:disabled),
+.header-actions button:active:not(:disabled),
+.header-actions button:focus-visible{
+  background-image:url('assets/ui-controls-v1.png');
+  background-color:transparent;
+  background-size:300% 100%;
+  background-repeat:no-repeat;
+}
+#pause,#pause:hover:not(:disabled),#pause:active:not(:disabled){background-position:0 0}
+#pause[aria-pressed="true"],#pause[aria-pressed="true"]:hover:not(:disabled),#pause[aria-pressed="true"]:active:not(:disabled){background-position:50% 0}
+#restart,#restart:hover:not(:disabled),#restart:active:not(:disabled){background-position:100% 0}
+
+/* The painted frame's parchment is at 27%–70% of its image height. */
+header{gap:16px;align-items:flex-start}
+#stats{height:132px;min-height:132px;flex:0 1 520px;min-width:380px;padding:36px 31px 41px;gap:22px;align-items:center}
+#stats .resource{min-width:0;gap:10px;align-items:center}
+#stats .resource-icon{width:40px;height:43px;flex:none}
+#stats .vitality .resource-icon{font-size:34px;line-height:43px}
+#stats .meter-label{gap:8px;line-height:21px;white-space:nowrap}
+#stats .meter-label b,#stats .meter-label span{font-size:15px;letter-spacing:0}
+#stats .meter{height:17px;margin-top:6px}
+#wave-panel{position:relative;height:132px;min-height:132px;flex:1;min-width:300px;max-width:470px;padding:0}
+#wave-panel>.meter-label{position:absolute;left:7.5%;right:7.5%;top:29%;height:23px;line-height:23px;gap:12px}
+#wave-label{font-size:14px;letter-spacing:0;line-height:23px}
+#wave-panel #wave-state{font-size:12px;line-height:23px;color:#75522d}
+#wave-panel .wave-track{position:absolute;left:7.5%;right:7.5%;top:57%;height:17px;margin:0}
+#wave-panel .wave-flag{top:-17px}
+#wave-panel .wave-flag i{width:25px;height:27px}
+#wave-panel .wave-flag small{display:none}
+#wave-countdown{top:calc(100% - 9px);right:7%;font-size:12px;padding:12px 22px}
+.header-actions{padding-top:12px}
+#message{top:164px}
+@media(max-width:1100px){
+  #stats{flex-basis:440px;min-width:330px;padding-left:27px;padding-right:27px;gap:15px}
+  #stats .resource{gap:6px}#stats .resource-icon{width:32px}
+  #stats .meter-label b,#stats .meter-label span{font-size:13px}
+  #wave-panel{min-width:240px}#wave-label{font-size:12px}
+  #wave-panel #wave-state{font-size:11px}
+  .header-actions button{width:54px;height:54px}
+}
+@media(max-width:760px){
+  header{gap:5px 9px}
+  #stats{height:112px;min-height:112px;min-width:0;padding:30px 20px 34px;gap:10px}
+  #stats .resource{gap:4px}#stats .resource-icon{width:26px;height:34px}
+  #stats .vitality .resource-icon{font-size:26px;line-height:34px}
+  #stats .meter-label{gap:4px;line-height:17px}
+  #stats .meter-label b,#stats .meter-label span{font-size:11px}
+  #stats .meter{height:13px;margin-top:4px}
+  .header-actions{padding:20px 0 0;gap:2px;align-self:start}
+  .header-actions button{width:43px;height:48px}
+  #wave-panel{height:114px;min-height:114px;min-width:0;max-width:none}
+  #wave-panel>.meter-label{top:27%;height:22px;line-height:22px}
+  #wave-label{font-size:13px}#wave-panel #wave-state{font-size:12px}
+  #wave-panel .wave-track{top:57%;height:15px}
+  #wave-countdown{font-size:11px}
+  #message{top:245px}
+}
+@media(max-width:420px){
+  #stats{padding-left:17px;padding-right:17px;gap:7px}
+  #stats .resource-icon{width:21px}
+  #stats .meter-label b,#stats .meter-label span{font-size:10px}
+  .header-actions button{width:36px;height:43px}
+}
+
+/* Keep the actual menu artwork as an image layer, independent of skin selectors. */
+#context-menu{isolation:isolate;background-image:none!important}
+#menu-background{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:fill;z-index:-1;pointer-events:none;user-select:none}
+#context-menu .section-heading,#context-menu #buildings,#context-menu #selection{z-index:1}
+/* The painted menu needs no extra heading or close control. */
+#context-menu .section-heading{display:none!important}
+/* Remove legacy CSS-drawn icons over the painted button sprites. */
+#pause::before,#pause::after,#restart::before,#restart::after{display:none!important;content:none!important}
+#pause,#restart{font-size:0;color:transparent;text-shadow:none}
+/* Nine-slice the painted frame for details, keeping the corner artwork intact
+   instead of stretching a horizontal HUD image over a tall panel. */
+#context-menu[data-mode="selection"]{
+  --menu-height:270px;
+  height:var(--menu-height);
+  padding:0;
+  border:solid transparent;
+  border-width:30px 24px 34px;
+  border-image-source:url('assets/ui-hud-panel-v1.png');
+  border-image-slice:29% 8% 33% 8% fill;
+  border-image-width:30px 24px 34px;
+  border-image-repeat:stretch;
+  background:none;
+  overflow:visible;
+}
+#context-menu[data-mode="selection"] #menu-background{display:none}
+#context-menu[data-mode="selection"] #selection{
+  position:relative;
+  inset:auto;
+  width:100%;height:100%;
+  padding:10px 9px;
+  overflow-y:auto;
+  line-height:1.85;
+}
+#context-menu[data-mode="selection"] #selection b{font-size:14px}
+#context-menu[data-mode="selection"] #selection button{
+  background:none;
+  border:solid transparent;
+  border-width:8px 10px;
+  border-image-source:url('assets/ui-hud-panel-v1.png');
+  border-image-slice:29% 8% 33% 8% fill;
+  border-image-width:8px 10px;
+  border-image-repeat:stretch;
+  padding:3px 7px;
+  min-height:34px;
+  margin-top:12px;
+}
+/* Dedicated, proportion-preserving result artwork matches the rest of the game. */
+#overlay.result .result-card,#overlay.result.defeat .result-card{
+  position:relative;isolation:isolate;
+  width:min(390px,calc(100vw - 40px),calc((100dvh - 40px)*.75));
+  aspect-ratio:3/4;height:auto;padding:0;
+  border:0;border-radius:0;box-shadow:none;background:transparent;
+  color:#69472c;
+}
+.result-art{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:-1;pointer-events:none;user-select:none}
+#overlay.result .result-card h2{position:absolute;top:33%;left:10%;right:10%;margin:0;font-size:clamp(22px,5vw,30px);line-height:1.3;letter-spacing:3px;color:#654026;text-shadow:0 1px #fff5d2}
+#overlay.result.defeat .result-card h2{color:#92503a}
+#overlay.result .result-card p{position:absolute;top:45%;left:11%;right:11%;margin:0;font-size:13px;line-height:1.6;color:#87633e}
+#overlay.result .result-summary{position:absolute;top:55%;left:13%;right:13%;margin:0;padding:10px 0;border:0;color:#80603c;font-size:13px;line-height:1.6}
+#overlay.result .result-summary b{color:#5c3c23;font-size:16px}
+#overlay.result #result-restart{position:absolute;top:69%;left:50%;transform:translateX(-50%);width:76px;height:76px;min-width:0;margin:0;padding:0;border:0;border-radius:0;box-shadow:none;font-size:0;background:transparent url('assets/ui-controls-v1.png') 100% 0/300% 100% no-repeat;transition:filter .12s}
+#overlay.result #result-restart:hover{filter:brightness(1.1)}
+#overlay.result #result-restart:active{filter:brightness(.95)}
+.result-restart-label{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:2px;width:130px;color:#694528;font-size:13px;font-weight:800;line-height:20px}
+#overlay.result .result-backdrop{background:#263a25aa;backdrop-filter:blur(3px)}
+#overlay.result.defeat .result-backdrop{background:#49372db5}
+@media(max-height:600px){#overlay.result #result-restart{width:58px;height:58px}.result-restart-label{font-size:11px}#overlay.result .result-card p{font-size:11px}#overlay.result .result-summary{padding:4px 0;font-size:11px}}
